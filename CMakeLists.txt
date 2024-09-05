@@ -20,9 +20,8 @@ set(UNITS_BUILD_CONVERTER_APP OFF CACHE INTERNAL "")
 set(UNITS_BUILD_WEBSERVER OFF CACHE INTERNAL "")
 set(UNITS_INSTALL ON CACHE INTERNAL "")
 add_subdirectory("${PROJECT_SOURCE_DIR}/ext/units" "${PROJECT_BINARY_DIR}/ext/units")
-target_link_libraries(ext-units INTERFACE units::units)
 
 set(JSON_Install OFF CACHE INTERNAL "")
 add_subdirectory(ext/json)
 
-target_link_libraries(busyring PRIVATE arbor::arbor arbor::arborio arbor::arborenv nlohmann_json::nlohmann_json)
+target_link_libraries(busyring PRIVATE arbor::arbor arbor::arborio arbor::arborenv nlohmann_json::nlohmann_json units::units)
