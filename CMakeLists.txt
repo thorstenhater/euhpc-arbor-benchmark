@@ -11,6 +11,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(busyring ring.cpp)
 
 find_package(arbor 0.10.0 CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
+
+CPMAddPackage(NAME json
+              GITHUB_REPOSITORY nlohmann/json
+              VERSION 3.11.2
+              OPTIONS "CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON")
 
 target_link_libraries(busyring PRIVATE arbor::arbor arbor::arborio arbor::arborenv nlohmann_json::nlohmann_json)
