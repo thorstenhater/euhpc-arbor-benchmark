@@ -11,7 +11,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(busyring ring.cpp)
 
 find_package(arbor 0.10.0 CONFIG REQUIRED)
-find_package(units CONFIG REQUIRED)
+
+# Hack around dependency issues...
+set(UNITS_ENABLE_TESTS OFF CACHE INTERNAL "")
+set(UNITS_BUILD_STATIC_LIBRARY ON CACHE INTERNAL "")
+set(UNITS_BUILD_SHARED_LIBRARY OFF CACHE INTERNAL "")
+set(UNITS_BUILD_CONVERTER_APP OFF CACHE INTERNAL "")
+set(UNITS_BUILD_WEBSERVER OFF CACHE INTERNAL "")
+set(UNITS_INSTALL ON CACHE INTERNAL "")
+add_subdirectory("${PROJECT_SOURCE_DIR}/ext/units" "${PROJECT_BINARY_DIR}/ext/units")
+target_link_libraries(ext-units INTERFACE units::units)
 
 set(JSON_Install OFF CACHE INTERNAL "")
 add_subdirectory(ext/json)
