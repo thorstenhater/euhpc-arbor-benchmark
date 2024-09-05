@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(busyring ring.cpp)
 
 find_package(arbor 0.10.0 CONFIG REQUIRED)
+find_package(units CONFIG REQUIRED)
 
 set(JSON_Install OFF CACHE INTERNAL "")
 add_subdirectory(ext/json)
