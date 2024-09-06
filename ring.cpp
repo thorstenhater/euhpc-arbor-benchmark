@@ -319,17 +319,14 @@ int main(int argc, char** argv) {
         meters.checkpoint("model-run", context);
 
         auto ns = sim.num_spikes();
-
-        // Write spikes to file
-        if (root) std::cout << "\n" << ns << " spikes generated at rate of " << params.duration/ns << " ms between spikes\n";
-        if (root) std::cout << arb::profile::make_meter_report(meters, context) << '\n';
+        if (root) std::cout << "\n" << ns << " spikes generated"
+                            << " at a rate of " << params.duration/ns << " ms between spikes\n"
+                            << arb::profile::make_meter_report(meters, context) << '\n';
     }
     catch (std::exception& e) {
         std::cerr << "exception caught in ring miniapp: " << e.what() << "\n";
         return 1;
     }
-
-    return 0;
 }
 
 // Helper used to interpolate in branch_cell.

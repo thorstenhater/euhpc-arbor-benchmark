@@ -3,6 +3,13 @@
 # TODO: Change me; JUWELS values
 CPUS_PER_NODE = 96
 GPUS_PER_NODE = 4
+# TODO Change me, [first, last] node counts in log2 scale
+nodes_min = 1
+nodes_max = 8
+# TODO Change me, [first, last] cell counts (per GPU) in linear scale with step
+cells_min = 8000
+cells_inc = 8000
+cells_max = 48000
 
 def write_input(nodes, cells, out):
     raw = rf"""{{
@@ -51,10 +58,12 @@ srun busyring {inp}
     with open(out, 'w') as fd:
         print(raw, file=fd)
 
-for nodes in [1, 2, 4, 8]:
-    for cells in [8000, 16000, 32000, 48000]:
+nodes = nodes_min
+while nodes <= nodes_max:
+    for cells in range(cells_min, cells_max + 1, cells_inc):
         cells = cells * nodes * GPUS_PER_NODE
         json = f"input-cells={cells}-nodes={nodes}.json"
         job  = f"submit-cells={cells}-nodes={nodes}.job"
         write_input(nodes, cells, out=json)
         write_sbatch(nodes, cells, inp=json, out=job)
+    nodes *= 2
