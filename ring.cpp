@@ -315,13 +315,18 @@ int main(int argc, char** argv) {
         if (root) sim.set_epoch_callback(arb::epoch_progress_bar());
         if (root) std::cout << "running simulation\n" << std::endl;
         sim.run(params.duration*U::ms, params.dt*U::ms);
+        if (root) std::cout << "running simulation: DONE\n" << std::endl;
 
         meters.checkpoint("model-run", context);
 
+        // Spike stats
         auto ns = sim.num_spikes();
         if (root) std::cout << "\n" << ns << " spikes generated"
-                            << " at a rate of " << params.duration/ns << " ms between spikes\n"
-                            << arb::profile::make_meter_report(meters, context) << '\n';
+                            <<  " at a rate of " << params.duration/ns << " ms between spikes"
+                            << std::endl;
+        auto report =  arb::profile::make_meter_report(meters, context);
+        if (root) std::cout << report << '\n';
+
     }
     catch (std::exception& e) {
         std::cerr << "exception caught in ring miniapp: " << e.what() << "\n";
